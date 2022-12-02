@@ -1,0 +1,78 @@
+const months = ["January","February","March","April","May","June","July",
+"August","September","October","November","December"];
+const abbrev_months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug", "Sep", "Oct", "Nov", "Dec"];
+
+const getDefaultData = () => {
+    return {
+        "Ticket No": "",
+        "Start Date": "",
+        "Timespent": "7h 30m",
+        "Comment": ""
+      }
+}
+
+const getGroomingData = () => {
+    return Object.assign(getDefaultData(), {
+        "Timespent": "6h 30m"
+    })
+}
+const getPlanningData = () => {
+    return Object.assign(getDefaultData(), {
+        "Timespent": "7h 00m"
+    })
+}
+function createProjects(year,month,groomingDates=[],planningDates=[],ptoDays) {
+    const days = new Date(year,month,0).getDate();
+    const monthDays = [];
+    for( i=1; i<=days; i++) {
+        monthDays.push(i);
+    }
+    const weekdays = monthDays.filter( dayNum => {
+        const dateString = `${months[month-1]} ${dayNum}, ${year} 00:00:00`
+        const date = new Date(dateString);
+        const day = date.getDay();
+        return day > 0 && day < 6;
+    })
+    const workingDays = weekdays.filter( dayNum => {
+        return ptoDays.includes(dayNum) === false;
+    })
+    const json = workingDays.map( day => {
+        const startDate = `${day}-${abbrev_months[month-1]}-${year} 09:00:00`;
+        console.log("\n-----------------------")
+        console.log("day:",day);
+        console.log("month:",month);
+        console.log("-----------------------")
+        const groomingDay = groomingDates.find( date => {
+   
+   
+            console.log("grooming Date date:",date);
+            console.log("grooming Date getDate:",date.getDate());
+            console.log("grooming Date getMonth:",date.getMonth());
+            
+            return date.getDate()+1 === day && date.getMonth()+1 === month;
+        })
+        console.log("groomingDay:",groomingDay);
+        console.log("-----------------------")
+        const planningDay = planningDates.find( date => {
+   
+   
+            console.log("planning Date date:",date);
+            console.log("planning Date getDate:",date.getDate());
+            console.log("planning Date getMonth:",date.getMonth());
+            
+            return date.getDate()+1 === day && date.getMonth()+1 === month;
+        })
+        console.log("planningDay:",planningDay);
+        console.log("-----------------------")
+
+        let defaultData = groomingDay == null ? getDefaultData() : getGroomingData();
+        defaultData = planningDay == null ? defaultData : getPlanningData();
+        const data = Object.assign({},defaultData,{
+            "Start Date": startDate
+        })
+        return data;
+    })
+    return json;
+}
+
+module.exports = createProjects;
