@@ -21,7 +21,7 @@ const getPlanningData = () => {
         "Timespent": "7h 00m"
     })
 }
-function createProjects(year,month,groomingDates=[],planningDates=[],ptoDays) {
+function createProjects(tickets=[],year,month,groomingDates=[],planningDates=[],ptoDays) {
     const days = new Date(year,month,0).getDate();
     const monthDays = [];
     for( i=1; i<=days; i++) {
@@ -67,12 +67,20 @@ function createProjects(year,month,groomingDates=[],planningDates=[],ptoDays) {
 
         let defaultData = groomingDay == null ? getDefaultData() : getGroomingData();
         defaultData = planningDay == null ? defaultData : getPlanningData();
-        const data = Object.assign({},defaultData,{
-            "Start Date": startDate
+        const ticket = tickets.find( _ticket => {
+            return _ticket.start <= day && _ticket.end >= day;
         })
-        return data;
+        const data = Object.assign({},defaultData,{
+            "Start Date": startDate,
+            "Ticket No": ticket ? ticket["ticket-number"] : "",
+            "Comment": ticket ? ticket.comment : ""
+        })
+        return ticket ? data : null;
     })
-    return json;
+    const validTickets = json.filter( ticket => {
+        return ticket != null;
+    })
+    return validTickets;
 }
 
 module.exports = createProjects;

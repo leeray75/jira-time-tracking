@@ -10,9 +10,9 @@ const repeattimes = 3;
 const skipValue = 2;
 const {
   "agile-meetings": meetings,
+  projects,
   paths,
   calendar,
-  schedules,
   "pto-days": ptoDays,
 } = config;
 const { grooming, planning, ticket } = meetings;
@@ -41,46 +41,42 @@ const jsonPath = path.resolve.apply(null, jsonArgs);
 const csvPath = path.resolve.apply(null, csvArgs);
 createFolder(jsonPath);
 createFolder(csvPath);
+
+(() => {
+  const createProjects = require("./scripts/create-projects");
+  const data = createProjects(
+    projects.tickets,
+    calendar.year,
+    calendar.month,
+    getScheduleDates(planning["start-date"]),
+    getScheduleDates(grooming["start-date"]),
+    ptoDays
+  );
+  //console.log("Projects Data:\n", data);
+  const outputFile = path.resolve(jsonPath, `${projects["file-name"]}.json`);
+
+  const outputData = JSON.stringify(data, null, 2);
+  //console.log("outputData:\n",outputData);
+  createFile(outputFile, outputData);
+})();
+(() => {
+  const createAgileMeetings = require("./scripts/create-agile-meetings");
+  const data = createAgileMeetings(
+    ticket,
+    calendar.year,
+    calendar.month,
+    getScheduleDates(planning["start-date"]),
+    getScheduleDates(grooming["start-date"]),
+    ptoDays
+  );
+  //console.log("Projects Data:\n", data);
+  const outputFile = path.resolve(jsonPath, `${meetings["file-name"]}.json`);
+
+  const outputData = JSON.stringify(data, null, 2);
+  //console.log("outputData:\n",outputData);
+  createFile(outputFile, outputData);
+})();
 const files = getFilesFromPath(jsonPath, "json");
-if (files.length < 2) {
-  console.log("schedules:", schedules);
-  if (files.includes(`${schedules.projects}.json`) === false) {
-    const createProjects = require("./scripts/create-projects");
-    const data = createProjects(
-      calendar.year,
-      calendar.month,
-      getScheduleDates(planning["start-date"]),
-      getScheduleDates(grooming["start-date"]),
-      ptoDays
-    );
-    //console.log("Projects Data:\n", data);
-    const outputFile = path.resolve(jsonPath, `${schedules["projects"]}.json`);
-
-    const outputData = JSON.stringify(data, null, 2);
-    //console.log("outputData:\n",outputData);
-    createFile(outputFile, outputData);
-  }
-  if (files.includes(schedules["agile-meetings"]) === false) {
-    const createAgileMeetings = require("./scripts/create-agile-meetings");
-    const data = createAgileMeetings(
-      ticket,
-      calendar.year,
-      calendar.month,
-      getScheduleDates(planning["start-date"]),
-      getScheduleDates(grooming["start-date"]),
-      ptoDays
-    );
-    //console.log("Projects Data:\n", data);
-    const outputFile = path.resolve(
-      jsonPath,
-      `${schedules["agile-meetings"]}.json`
-    );
-
-    const outputData = JSON.stringify(data, null, 2);
-    //console.log("outputData:\n",outputData);
-    createFile(outputFile, outputData);
-  }
-}
 files.forEach((fileName, index) => {
   (async (fileName) => {
     const filePath = path.resolve(jsonPath, fileName);
