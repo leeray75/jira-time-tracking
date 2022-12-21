@@ -23,7 +23,7 @@ const getPlanningData = () => {
         "Comment": "Sprint Planning"
     })
 }
-function createMeetings(ticketNo="",year,month,groomingDates=[],planningDates=[], ptoDays=[]) {
+function createMeetings(ticketNo="",year,month,meetings=[], ptoDays=[]) {
     const days = new Date(year,month,0).getDate();
     const monthDays = [];
     for( i=1; i<=days; i++) {
@@ -38,13 +38,28 @@ function createMeetings(ticketNo="",year,month,groomingDates=[],planningDates=[]
     const workingDays = weekdays.filter( dayNum => {
         return ptoDays.includes(dayNum) === false;
     })
+    const meetingTickets = meetings.sort( (ticketA,ticketB) => {
+        return ticketA.start - ticketB.start;
+    })
+    const groomingDates = meetingTickets.filter( ticket => {
+        return ticket.comment.toLowerCase() === "grooming";
+    }).map( ticket => {
+        const date = new Date(`${months[month-1]} ${ticket.start}, ${year} 00:00:00`);
+        return date;
+    })
+    const planningDates= meetingTickets.filter( ticket => {
+        return ticket.comment.toLowerCase() === "planning";
+    }).map( ticket => {
+        const date = new Date(`${months[month-1]} ${ticket.start}, ${year} 00:00:00`);
+        return date;
+    })
     const json = workingDays.map( day => {
         const startDate = `${day}-${abbrev_months[month-1]}-${year} 09:00:00`;
         const groomingDay = groomingDates.find( date => {            
-            return date.getDate()+1 === day && date.getMonth()+1 === month;
+            return date.getDate() === day && date.getMonth()+1 === month;
         })
         const planningDay = planningDates.find( date => {            
-            return date.getDate()+1 === day && date.getMonth()+1 === month;
+            return date.getDate() === day && date.getMonth()+1 === month;
         })
 
         let defaultData = groomingDay == null ? getDefaultData() : getGroomingData();

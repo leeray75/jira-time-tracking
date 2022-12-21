@@ -52,6 +52,10 @@ function readFile(path) {
 
 async function createFile(file, content) {
   if (fs.existsSync(file)) {
+    console.log(
+      color([Bright, FgRed], "[scripts][utils][createFile] Deleting File: "),
+      color([FgGreen], file)
+    );
     deleteFile(file);
   }
   const promise = new Promise((resolve, reject) => {
