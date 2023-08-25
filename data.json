@@ -1,0 +1,92 @@
+{
+    "pto-days": [
+        "08/11/2023",
+        "08/18/2023"
+    ],
+    "tickets": [
+        {
+            "issue": "PPE-472179",
+            "start": "08/01/2023",
+            "end": "08/31/2023",
+            "comment": "Agile: Stand Up",
+            "timespentMinutes": 30,
+            "excludeDates": [
+                "08/02/2023",
+                "08/16/2023",
+                "08/30/2023"
+            ],
+            "excludeDays": [
+                "Friday"
+            ]
+        },
+        {
+            "issue": "PPE-472179",
+            "start": "08/14/2023",
+            "end": "08/14/2023",
+            "comment": "Agile: Grooming",
+            "timespentMinutes": 60,
+            "excludeDates": [],
+            "excludeDays": []
+        },
+        {
+            "issue": "PPE-472179",
+            "start": "08/28/2023",
+            "end": "08/28/2023",
+            "comment": "Agile: Grooming",
+            "timespentMinutes": 60,
+            "excludeDates": [],
+            "excludeDays": []
+        },
+        {
+            "issue": "PPE-472179",
+            "start": "08/02/2023",
+            "end": "08/02/2023",
+            "comment": "Agile: Planning",
+            "timespentMinutes": 60,
+            "excludeDates": [],
+            "excludeDays": []
+        },
+        {
+            "issue": "PPE-472179",
+            "start": "08/16/2023",
+            "end": "08/16/2023",
+            "comment": "Agile: Planning",
+            "timespentMinutes": 60,
+            "excludeDates": [],
+            "excludeDays": []
+        },
+        {
+            "issue": "PPE-472179",
+            "start": "08/30/2023",
+            "end": "08/30/2023",
+            "comment": "Agile: Planning",
+            "timespentMinutes": 60,
+            "excludeDates": [],
+            "excludeDays": []
+        },
+        {
+            "issue": "PPE-513223",
+            "start": "08/01/2023",
+            "end": "08/14/2023",
+            "comment": "BrandPlay - Chapters",
+            "excludeDates": [],
+            "excludeDays": []
+        },
+        {
+            "issue": "PPE-515943",
+            "start": "08/15/2023",
+            "end": "08/20/2023",
+            "comment": "BrandPlay - Chapters",
+            "excludeDates": [],
+            "excludeDays": []
+        },
+        {
+            "issue": "PPE-516941",
+            "start": "08/21/2023",
+            "end": "08/29/2023",
+            "comment": "BrandPlay - Broadcast Events",
+            "excludeDates": [],
+            "excludeDays": []
+        }
+    ]
+}
